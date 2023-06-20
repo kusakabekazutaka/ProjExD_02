@@ -2,7 +2,6 @@ import random
 import sys
 import pygame as pg
 
-
 WIDTH, HEIGHT = 1600, 900
 delta = {
     pg.K_UP: (0, -5),
@@ -10,7 +9,6 @@ delta = {
     pg.K_LEFT: (-5, 0),
     pg.K_RIGHT: (+5, 0),
 }
-
 
 def main():
     pg.display.set_caption("逃げろ！こうかとん")
@@ -42,10 +40,12 @@ def main():
     vx, vy = +5, +5  
     clock = pg.time.Clock()
     tmr = 0
+    
     while True:
         for event in pg.event.get():
             if event.type == pg.QUIT: 
                 return
+        
         if kk_rct.colliderect(bd_rct):
             print("game over")
             kk_img = pg.image.load("ex02/fig/8.png")
@@ -55,6 +55,7 @@ def main():
                 screen.blit(kk_img, kk_rct)
                 pg.display.update()
             return
+        
         key_lst = pg.key.get_pressed()
         sum_mv = [0, 0]  
         for k, mv in delta.items():
@@ -62,6 +63,7 @@ def main():
                 sum_mv[0] += mv[0]
                 sum_mv[1] += mv[1]
         kk_rct.move_ip(sum_mv)
+        
         if cage(kk_rct) != (True,True):
             kk_rct.move_ip(-sum_mv[0],-sum_mv[1])
         screen.blit(bg_img, [0, 0])
@@ -69,6 +71,7 @@ def main():
         screen.blit(kk_img, kk_rct)
         bd_rct.move_ip(vx, vy)  
         yoko,tate=cage(bd_rct)
+        
         if not yoko:
             vx*=-1
         if not tate:
@@ -76,22 +79,24 @@ def main():
         screen.blit(bd_img, bd_rct)
         pg.display.update()
         tmr += 1
-        if tmr>100==0:
+
+        if tmr>10==0:
            kk_img=pg.transform.rotozoom(kk_img, 0, 1.1) 
-        if tmr>200==0:
+        if tmr>20==0:
            kk_img=pg.transform.rotozoom(kk_img, 0, 1.1) 
-        if tmr>300==0:
+        if tmr>30==0:
            kk_img=pg.transform.rotozoom(kk_img, 0, 1.1) 
-        if tmr>400==0:
+        if tmr>40==0:
            kk_img=pg.transform.rotozoom(kk_img, 0, 1.1) 
         clock.tick(50)
-def cage(rect: pg.Rect):
+
+def cage(rect: pg.Rect): # 引数はこうかとんまたは爆弾のRect
     yoko, tate=True,True
     if rect.left < 0 or WIDTH < rect.right:#横 
         yoko = False
     if rect.top < 0 or HEIGHT < rect.bottom:#縦
         tate = False
-    return yoko,tate
+    return yoko,tate # 戻り値は横方向・縦方向の真理値タプル（True：画面内／False：画面外）
 
 if __name__ == "__main__":
     pg.init()
