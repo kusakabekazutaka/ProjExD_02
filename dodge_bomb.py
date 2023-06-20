@@ -3,7 +3,7 @@ import sys
 import pygame as pg
 
 
-WIDTH, HEIGHT = 1000, 600
+WIDTH, HEIGHT = 1600, 900
 delta = {
     pg.K_UP: (0, -5),
     pg.K_DOWN: (0, +5),
@@ -17,7 +17,19 @@ def main():
     screen = pg.display.set_mode((WIDTH, HEIGHT))
     bg_img = pg.image.load("ex02/fig/pg_bg.jpg")
     kk_img = pg.image.load("ex02/fig/3.png")
-    kk_img = pg.transform.rotozoom(kk_img, 0, 2.0)
+    kk_img = pg.transform.rotozoom(kk_img, 0, 1.0)
+    kk_img2=pg.transform.flip(kk_img,False,True)
+    kk_spin={
+        (0,0):pg.transform.rotozoom(kk_img, 0, 1.0),
+        (-5,0):pg.transform.rotozoom(kk_img, 0, 1.0),
+        (-5,-5):pg.transform.rotozoom(kk_img, 315,1.0),
+        (0,-5):pg.transform.rotozoom(kk_img2, 270, 1.0),
+        (5,-5):pg.transform.rotozoom(kk_img2, 225, 1.0),
+        (5,0):pg.transform.rotozoom(kk_img2, 180, 1.0),
+        (5,5):pg.transform.rotozoom(kk_img2, 135, 1.0),
+        (0,5):pg.transform.rotozoom(kk_img2, 90, 1.0),
+        (-5,5):pg.transform.rotozoom(kk_img, 45, 1.0),
+    }
     kk_rct = kk_img.get_rect()
     kk_rct.center = 900, 400
     bd_img = pg.Surface((20, 20))  
@@ -48,6 +60,7 @@ def main():
         if cage(kk_rct) != (True,True):
             kk_rct.move_ip(-sum_mv[0],-sum_mv[1])
         screen.blit(bg_img, [0, 0])
+        kk_img=kk_spin[tuple(sum_mv)]
         screen.blit(kk_img, kk_rct)
         bd_rct.move_ip(vx, vy)  
         yoko,tate=cage(bd_rct)
