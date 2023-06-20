@@ -40,7 +40,6 @@ def main():
     bd_rct = bd_img.get_rect()
     bd_rct.center = x, y 
     vx, vy = +5, +5  
-
     clock = pg.time.Clock()
     tmr = 0
     while True:
@@ -77,6 +76,14 @@ def main():
         screen.blit(bd_img, bd_rct)
         pg.display.update()
         tmr += 1
+        if tmr>100==0:
+           kk_img=pg.transform.rotozoom(kk_img, 0, 1.1) 
+        if tmr>200==0:
+           kk_img=pg.transform.rotozoom(kk_img, 0, 1.1) 
+        if tmr>300==0:
+           kk_img=pg.transform.rotozoom(kk_img, 0, 1.1) 
+        if tmr>400==0:
+           kk_img=pg.transform.rotozoom(kk_img, 0, 1.1) 
         clock.tick(50)
 def cage(rect: pg.Rect):
     yoko, tate=True,True
