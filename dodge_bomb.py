@@ -3,7 +3,7 @@ import sys
 import pygame as pg
 
 
-WIDTH, HEIGHT = 1600, 900
+WIDTH, HEIGHT = 1000, 500
 delta = {
     pg.K_UP: (0, -5),
     pg.K_DOWN: (0, +5),
@@ -18,19 +18,16 @@ def main():
     bg_img = pg.image.load("ex02/fig/pg_bg.jpg")
     kk_img = pg.image.load("ex02/fig/3.png")
     kk_img = pg.transform.rotozoom(kk_img, 0, 2.0)
-    # こうかとんSurface（kk_img）からこうかとんRect（kk_rct）を抽出する
     kk_rct = kk_img.get_rect()
     kk_rct.center = 900, 400
-    bd_img = pg.Surface((20, 20))  # 練習１
-    bd_img.set_colorkey((0, 0, 0))  # 黒い部分を透明にする
+    bd_img = pg.Surface((20, 20))  
+    bd_img.set_colorkey((0, 0, 0))  
     pg.draw.circle(bd_img, (255, 0, 0), (10, 10), 10)
     x = random.randint(0, WIDTH)
     y = random.randint(0, HEIGHT)
-    # 爆弾Surface（bd_img）から爆弾Rect（bd_rct）を抽出する
     bd_rct = bd_img.get_rect()
-    # 爆弾Rectの中心座標を乱数で指定する
     bd_rct.center = x, y 
-    vx, vy = +5, +5  # 練習２
+    vx, vy = +5, +5  
 
     clock = pg.time.Clock()
     tmr = 0
@@ -39,21 +36,33 @@ def main():
             if event.type == pg.QUIT: 
                 return
         key_lst = pg.key.get_pressed()
-        sum_mv = [0, 0]  # 合計移動量
+        sum_mv = [0, 0]  
         for k, mv in delta.items():
             if key_lst[k]: 
                 sum_mv[0] += mv[0]
                 sum_mv[1] += mv[1]
         kk_rct.move_ip(sum_mv)
- 
+        if cage(kk_rct) != (True,True):
+            kk_rct.move_ip(-sum_mv[0],-sum_mv[1])
         screen.blit(bg_img, [0, 0])
         screen.blit(kk_img, kk_rct)
-        bd_rct.move_ip(vx, vy)  # 練習２
+        bd_rct.move_ip(vx, vy)  
+        yoko,tate=cage(bd_rct)
+        if not yoko:
+            vx*=-1
+        if not tate:
+            vy*=-1
         screen.blit(bd_img, bd_rct)
         pg.display.update()
         tmr += 1
         clock.tick(50)
-
+def cage(rect: pg.Rect):
+    yoko, tate=True,True
+    if rect.left < 0 or WIDTH < rect.right:#横 
+        yoko = False
+    if rect.top < 0 or HEIGHT < rect.bottom:#縦
+        tate = False
+    return yoko,tate
 
 if __name__ == "__main__":
     pg.init()
