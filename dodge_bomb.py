@@ -49,6 +49,12 @@ def main():
                 return
         if kk_rct.colliderect(bd_rct):
             print("game over")
+            kk_img = pg.image.load("ex02/fig/8.png")
+            kk_img=pg.transform.rotozoom(kk_img, 0, 1.5)
+            for i in range(50):
+                clock.tick(50)
+                screen.blit(kk_img, kk_rct)
+                pg.display.update()
             return
         key_lst = pg.key.get_pressed()
         sum_mv = [0, 0]  
