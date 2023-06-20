@@ -3,7 +3,7 @@ import sys
 import pygame as pg
 
 
-WIDTH, HEIGHT = 1000, 500
+WIDTH, HEIGHT = 1000, 600
 delta = {
     pg.K_UP: (0, -5),
     pg.K_DOWN: (0, +5),
