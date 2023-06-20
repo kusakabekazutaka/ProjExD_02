@@ -18,7 +18,11 @@ def main():
     bonb.set_colorkey((0,0,0))
     x=random.randint(0,WIDTH)
     y=random.randint(0,HEIGHT)
+    vx,vy=+5 +5
     tmr = 0
+    bonb_rct=bonb.get_rect()
+    bonb_rct.center=x,y # 爆弾の座標を決定
+    screen.blit(bonb,bonb_rct)
     while True:
         for event in pg.event.get():
             if event.type == pg.QUIT: 
@@ -26,12 +30,12 @@ def main():
 
         screen.blit(bg_img, [0, 0])
         screen.blit(kk_img, [900, 400])
-        bonb_rct=bonb.get_rect()
-        bonb_rct.center=x,y
-        screen.blit(bonb,bonb_rct)
+  
+  
+        bonb_rct.move_ip(vx,vy)
         pg.display.update()
         tmr += 1
-        clock.tick(10)
+        clock.tick(50)
 
 
 if __name__ == "__main__":
